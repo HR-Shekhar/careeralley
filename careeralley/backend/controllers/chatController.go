@@ -15,6 +15,7 @@ import (
 	"github.com/gorilla/websocket"
 	"github.com/livekit/protocol/auth"
 	"os"
+	"strings"
 )
 
 // ------------------------------------
@@ -344,8 +345,8 @@ func GenerateVoiceToken(c *gin.Context) {
 		return
 	}
 
-	apiKey := os.Getenv("LIVEKIT_API_KEY")
-	apiSecret := os.Getenv("LIVEKIT_API_SECRET")
+	apiKey := strings.TrimSpace(os.Getenv("LIVEKIT_API_KEY"))
+	apiSecret := strings.TrimSpace(os.Getenv("LIVEKIT_API_SECRET"))
 	if apiKey == "" || apiSecret == "" {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "LiveKit credentials not configured on server"})
 		return

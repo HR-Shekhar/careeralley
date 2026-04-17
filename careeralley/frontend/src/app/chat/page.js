@@ -342,7 +342,10 @@ export default function GroupChatPage() {
       })
       const data = await res.json()
       if (data.token) {
+        console.log("Got Voice Token:", data.token)
         setVoiceToken(data.token)
+      } else {
+        console.error("Failed to get token, response:", data)
       }
     } catch (e) {
       console.error("Failed to fetch voice token", e)
@@ -543,10 +546,15 @@ export default function GroupChatPage() {
               {voiceToken && process.env.NEXT_PUBLIC_LIVEKIT_URL && (
                 <LiveKitRoom
                   video={false}
-                  audio={true}
+                  audio={false} // don't ask for mic immediately to prevent permission crash
                   token={voiceToken}
                   serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
-                  onDisconnected={() => setVoiceToken(null)}
+                  connect={true}
+                  onDisconnected={() => {
+                    console.log('LiveKit disconnected');
+                    setVoiceToken(null);
+                  }}
+                  onError={(err) => console.error('LiveKit Error:', err)}
                 >
                   <ActiveVoiceCall onLeave={() => setVoiceToken(null)} />
                 </LiveKitRoom>
