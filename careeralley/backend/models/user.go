@@ -1,0 +1,19 @@
+package models
+
+import "time"
+
+type User struct {
+	ID uint `gorm:"primaryKey"`
+
+	Name string `gorm:"not null"`
+
+	Email string `gorm:"unique;not null"`
+
+	Password string
+
+	Provider string `gorm:"default:local"`
+
+	CreatedAt time.Time
+
+	Onboarded bool
+}
