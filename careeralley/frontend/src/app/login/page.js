@@ -145,7 +145,7 @@ export default function LoginPage() {
     try {
       const res = await post("/login", { email, password })
       localStorage.setItem("token", res.token)
-      router.push("/dashboard")
+      router.push(res.onboarded ? "/dashboard" : "/onboarding")
     } catch {
       setError("Invalid email or password. Please try again.")
     } finally {

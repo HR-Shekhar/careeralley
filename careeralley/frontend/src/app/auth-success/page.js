@@ -44,7 +44,11 @@ export default function AuthSuccess() {
     const token = params.get("token")
     const onboarded = params.get("onboarded")
     if (token) localStorage.setItem("token", token)
-    router.push("/dashboard")
+    if (onboarded === "true") {
+      router.push("/dashboard")
+    } else {
+      router.push("/onboarding")
+    }
   }, [])
 
   return (
